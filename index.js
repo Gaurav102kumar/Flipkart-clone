@@ -4,7 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { v4 as uuid } from 'uuid';
 import path from 'path'
-
+import {fileURLToPath} from 'url'
 
 import Connection from './database/db.js';
 import DefaultData from './default.js';
@@ -24,15 +24,16 @@ Connection(username, password);
 app.listen(PORT, () => console.log(`Server is running successfully on PORT ${PORT}`));
 DefaultData();
 
-app.use(express.static(path.join(__dirname, "./client/build")));
-app.get("*", function(_,res){
-  res.sendFile(
-    path.join(__dirname, "./client/build/index.html"),
-    function(err)
-    {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname, 'client/build')));
+app.get('*', function(_, res) {
+  res.sendFile(path.join(__dirname, 'client/build/index.html'), function(err) {
+    if (err) {
       res.status(500).send(err);
     }
-       );
+  });
 });
 
 app.use(bodyParser.json({ extended: true }));
