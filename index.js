@@ -22,6 +22,17 @@ Connection(username, password);
 app.listen(PORT, () => console.log(`Server is running successfully on PORT ${PORT}`));
 DefaultData();
 
+app.use(express.static(path.join(__dirname, "./client/build")));
+app.get("*", function(_,res){
+  res.sendFile(
+    path.join(__dirname, "./client/build/index.html"),
+    function(err)
+    {
+      res.status(500).send(err);
+    }
+       );
+});
+
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
