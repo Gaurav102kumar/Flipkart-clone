@@ -3,6 +3,8 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { v4 as uuid } from 'uuid';
+import path from 'path'
+
 
 import Connection from './database/db.js';
 import DefaultData from './default.js';
